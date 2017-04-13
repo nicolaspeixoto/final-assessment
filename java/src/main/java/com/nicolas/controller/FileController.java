@@ -36,7 +36,7 @@ public class FileController {
         file.transferTo(new File(UPLOAD_DIR + id));
         return ResponseEntity
                 .ok()
-                .body("[\"" + id + "\"]");
+                .body(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
