@@ -1,0 +1,19 @@
+{
+  "name": "finalassessment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "busboy": "^0.2.14",
+    "express": "^4.15.0",
+    "express-cluster": "0.0.4",
+    "express-formidable": "^1.0.0",
+    "formidable": "^1.1.1",
+    "uuid": "^3.0.1"
+  }
+}

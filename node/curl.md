@@ -1,0 +1,2 @@
+curl -i -X POST -H "Content-Type: multipart/form-data"  -F "data=@index.js" 'http://localhost:3000'
+curl -i -X PUT -H "Content-Type: multipart/form-data"  -F "data=@package.json" 'http://localhost:3000/29e014d0eaa85cb1749315070467c0b7'

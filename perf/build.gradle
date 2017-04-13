@@ -1,0 +1,51 @@
+apply plugin: "java"
+apply plugin: "scala"
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+jar {
+    baseName = 'perfomance'
+    version = '1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "io.gatling.highcharts:gatling-charts-highcharts:2.1.7"
+}
+
+task getDeps(type: Copy) {
+    from sourceSets.main.compileClasspath
+    into 'build/deps/'
+}
+
+task loadTest(type: JavaExec) {
+    dependsOn testClasses
+    dependsOn getDeps
+
+    println sourceSets.test.resources.srcDirs.toList().first().toString()
+
+    description = "load test with Gatling"
+    group = "Load Test"
+    classpath = files("build/deps/*", "/home/latam/workspace/performance-tests/conf")
+    jvmArgs = [
+        "-Dlogback.configurationFile=${logbackGatlingConfig()}",
+    ]
+    main = "io.gatling.app.Gatling"
+    args = [
+        "--simulation", "TCC",
+        "--results-folder", "${buildDir}/gatling-results",
+        "--binaries-folder", sourceSets.test.output.classesDir.toString(),
+        "--bodies-folder", sourceSets.test.resources.srcDirs.toList().first().toString() + "/bodies",
+        "--data-folder", sourceSets.test.resources.srcDirs.toList().first().toString() + "/data"
+    ]
+}
+
+def logbackGatlingConfig() {
+    return sourceSets.test.resources.find { it.name == 'logback-gatling.xml' };
+}
+
