@@ -38,8 +38,7 @@ cluster(function(worker) {
   app.delete('/:id', (req, res) => deleteFile(req.params.id).then(() => res.send('ok')));
 
   app.put('/:id', (req, res) => {
-    const { params } = req;
-    const { id } = params;
+    const id = req.params.id;
     const busboy = new Busboy({ headers: req.headers });
     const newID = uuid.v4();
 
