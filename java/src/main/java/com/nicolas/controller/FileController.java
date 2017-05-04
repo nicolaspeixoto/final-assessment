@@ -1,6 +1,6 @@
 package com.nicolas.controller;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.UUID;
 
 /**
  * Created by nsanto1 on 4/2/17.
  */
+@MultipartConfig(location="/tmp/")
 @Controller
 public class FileController {
     final String UPLOAD_DIR = "/tmp/";
@@ -33,7 +32,8 @@ public class FileController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<String> postFile(@RequestParam("data") MultipartFile file) throws IOException{
         String id = UUID.randomUUID().toString();
-        file.transferTo(new File(UPLOAD_DIR + id));
+        OutputStream os = new FileOutputStream(UPLOAD_DIR + id);
+        IOUtils.copy(file.getInputStream(), os);
         return ResponseEntity
                 .ok()
                 .body(id);

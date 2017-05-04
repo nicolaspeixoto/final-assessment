@@ -12,6 +12,10 @@ buildscript {
 	}
 }
 
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -28,5 +32,6 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-jetty:1.5.3.RELEASE")
 	compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
 }
