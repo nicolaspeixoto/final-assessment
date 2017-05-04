@@ -51,7 +51,8 @@ public class FileController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<String> putFile(@RequestParam("data") MultipartFile file, @PathVariable("id") String id, HttpServletResponse response) throws IOException {
-        file.transferTo(new File(UPLOAD_DIR + id));
+        OutputStream os = new FileOutputStream(UPLOAD_DIR + id);
+        IOUtils.copy(file.getInputStream(), os);
         return ResponseEntity
                 .ok()
                 .body(id);
